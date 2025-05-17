@@ -1,0 +1,8 @@
+CombinedData/
+files/
+retina-collected-dataset/
+data/
+/__pycache__/
+/retina/
+/model/
+.pth

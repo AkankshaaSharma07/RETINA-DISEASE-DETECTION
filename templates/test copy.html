@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VISION AI | Advanced Eye Disease Detection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Custom animated gradient background */
+        .hero-gradient {
+            background: linear-gradient(-45deg, #3b82f6, #6366f1, #8b5cf6, #d946ef);
+            background-size: 400% 400%;
+            animation: gradient 12s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glass morphism effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Retina scan placeholder image */
+        .retina-scan-bg {
+            background-image: url('https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation (Dark with Glass Effect) -->
+    <nav class="glass-card fixed w-full z-50">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2">
+                <i class="fas fa-eye text-2xl text-white"></i>
+                <span class="text-2xl font-bold text-white">VISION AI</span>
+            </a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#" class="text-white hover:text-blue-200 transition">Home</a>
+                <a href="#" class="text-white hover:text-blue-200 transition">How It Works</a>
+                <a href="#" class="text-white hover:text-blue-200 transition">Pricing</a>
+                <a href="#" class="text-white hover:text-blue-200 transition">Doctors</a>
+                <a href="#" class="text-white hover:text-blue-200 transition">Contact</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="text-white hover:text-blue-200">
+                    <i class="fas fa-user-circle text-xl"></i>
+                </a>
+                <a href="#" class="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">
+                    Log In
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Animated Gradient) -->
+    <section class="hero-gradient text-white pt-24 pb-16 md:pt-32 md:pb-24">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">AI-Powered <span class="text-yellow-300">Retina</span> Analysis</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">Detect diabetic retinopathy, macular degeneration, and glaucoma in seconds with 98% accuracy.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#upload" class="bg-white text-blue-600 px-8 py-4 rounded-xl shadow-lg font-bold hover:bg-gray-100 transition transform hover:scale-105">
+                    <i class="fas fa-upload mr-2"></i> Upload Scan Now
+                </a>
+                <a href="https://www.youtube.com/watch?v=4u88Bf6s3Aw" class="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition transform hover:scale-105">
+                    <i class="fas fa-play-circle mr-2"></i> Watch Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works (Cards with Icons) -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-800">How Vision AI Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <!-- Step 1 -->
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition duration-300">
+                    <div class="bg-blue-100 w-20 h-20 rounded-full flex items-center justify-center mb-6 mx-auto">
+                        <span class="text-blue-600 text-3xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 text-gray-800">Upload Your Scan</h3>
+                    <p class="text-gray-600 text-center">Simply upload your retinal image (OCT or fundus photo) through our secure portal.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition duration-300">
+                    <div class="bg-purple-100 w-20 h-20 rounded-full flex items-center justify-center mb-6 mx-auto">
+                        <span class="text-purple-600 text-3xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 text-gray-800">AI Analysis</h3>
+                    <p class="text-gray-600 text-center">Our deep learning model analyzes 120+ disease markers in your retina with 98% accuracy.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="bg-gradient-to-br from-green-50 to-teal-50 p-8 rounded-2xl shadow-lg transform hover:scale-105 transition duration-300">
+                    <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mb-6 mx-auto">
+                        <span class="text-green-600 text-3xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 text-gray-800">Get Results</h3>
+                    <p class="text-gray-600 text-center">Receive a detailed report with risk assessment and recommended next steps.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section (With Retina Scan BG) -->
+    <section id="upload" class="retina-scan-bg py-20 relative">
+        <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-2xl mx-auto glass-card rounded-2xl p-8 shadow-2xl">
+                <h2 class="text-3xl font-bold text-white mb-6 text-center">Upload Retinal Scan</h2>
+                
+                <!-- Drag & Drop Area -->
+                <div class="border-2 border-dashed border-white border-opacity-30 rounded-xl p-8 text-center mb-6 hover:border-opacity-60 transition cursor-pointer backdrop-blur-sm bg-white bg-opacity-10" id="drop-zone">
+                    <input type="file" class="hidden" id="fileInput" accept="image/*">
+                    <div class="flex flex-col items-center justify-center">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-white mb-4"></i>
+                        <h3 class="text-xl font-semibold text-white mb-2" id="fileLabel">Drag & drop your scan</h3>
+                        <p class="text-white text-opacity-80 mb-4">Supports: JPEG, PNG, DICOM</p>
+                        <button class="bg-white text-blue-600 px-6 py-2 rounded-lg font-medium hover:bg-gray-100 transition">
+                            <i class="fas fa-folder-open mr-2"></i> Browse Files
+                        </button>
+                    </div>
+                </div>
+                
+                <button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-4 rounded-lg text-lg font-bold transition transform hover:scale-[1.02] flex items-center justify-center">
+                    <i class="fas fa-search mr-3"></i> Analyze Now
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Preview (Mockup) -->
+    <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-800">Sample AI Analysis Report</h2>
+            <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <!-- Retina Image -->
+                    <div class="bg-gray-100 p-6 flex items-center justify-center">
+                        <img src="https://images.unsplash.com/photo-1551269901-5c5e14c25df7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" 
+                             alt="Retina scan sample" 
+                             class="rounded-lg shadow-md w-full max-w-md">
+                    </div>
+                    <!-- Analysis Results -->
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Diagnosis Summary</h3>
+                        <div class="space-y-4 mb-6">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">Diabetic Retinopathy</span>
+                                    <span class="font-bold text-red-600">Moderate</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-red-600 h-2.5 rounded-full" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">Macular Edema</span>
+                                    <span class="font-bold text-yellow-600">Mild</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span class="font-medium">Glaucoma Risk</span>
+                                    <span class="font-bold text-green-600">Low</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 15%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                            <p class="text-blue-800"><span class="font-bold">Recommendation:</span> Consult an ophthalmologist within 2 weeks. Early treatment can prevent 90% of severe vision loss.</p>
+                        </div>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold w-full transition">
+                            <i class="fas fa-file-pdf mr-2"></i> Download Full Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-indigo-900 text-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-16">Trusted by Ophthalmologists Worldwide</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-indigo-800 p-8 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Dr. Sarah Chen" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Dr. Sarah Chen</h4>
+                            <p class="text-indigo-300 text-sm">Singapore National Eye Center</p>
+                        </div>
+                    </div>
+                    <p class="italic">"VISION AI has reduced my diagnostic time by 70% while maintaining exceptional accuracy. It's like having a second opinion from the world's top retina specialists."</p>
+                    <div class="flex mt-4 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="bg-indigo-800 p-8 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. Raj Patel" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Dr. Raj Patel</h4>
+                            <p class="text-indigo-300 text-sm">London Eye Hospital</p>
+                        </div>
+                    </div>
+                    <p class="italic">"The detailed lesion mapping helps me explain conditions to patients visually. Detection of early microaneurysms is particularly impressive."</p>
+                    <div class="flex mt-4 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="bg-indigo-800 p-8 rounded-2xl">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Dr. Elena Rodriguez" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Dr. Elena Rodriguez</h4>
+                            <p class="text-indigo-300 text-sm">Mexico City Vision Clinic</p>
+                        </div>
+                    </div>
+                    <p class="italic">"For rural clinics with limited specialist access, VISION AI is revolutionary. We've detected sight-threatening conditions months earlier than before."</p>
+                    <div class="flex mt-4 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Protect Your Vision?</h2>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Early detection prevents 95% of severe vision loss from diabetic eye disease.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#upload" class="bg-white text-blue-600 px-8 py-4 rounded-xl shadow-lg font-bold hover:bg-gray-100 transition transform hover:scale-105">
+                    <i class="fas fa-upload mr-2"></i> Scan Your Retina Now
+                </a>
+                <a href="#" class="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-blue-600 transition transform hover:scale-105">
+                    <i class="fas fa-phone-alt mr-2"></i> Talk to a Specialist
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-eye mr-2 text-blue-400"></i> VISION AI
+                    </h3>
+                    <p class="text-gray-400 mb-4">Advanced AI for early detection of retinal diseases.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white transition"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">How It Works</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Research</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Case Studies</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">API Docs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Help Center</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Newsletter</h4>
+                    <p class="text-gray-400 mb-4">Subscribe for the latest in retinal health.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="px-4 py-3 bg-gray-800 text-white rounded-l-lg focus:outline-none w-full">
+                        <button class="bg-blue-600 hover:bg-blue-700 px-4 py-3 rounded-r-lg">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 VISION AI Technologies. All rights reserved. HIPAA Compliant.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // File upload handling with drag and drop
+        const fileInput = document.getElementById('fileInput');
+        const fileLabel = document.getElementById('fileLabel');
+        const dropZone = document.getElementById('drop-zone');
+        
+        // Click on drop zone triggers file input
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        // Handle file selection
+        fileInput.addEventListener('change', function() {
+            if (this.files.length) {
+                fileLabel.textContent = this.files[0].name;
+                dropZone.classList.add('border-green-400', 'bg-green-500', 'bg-opacity-10');
+                setTimeout(() => {
+                    dropZone.classList.remove('border-green-400', 'bg-green-500', 'bg-opacity-10');
+                }, 2000);
+            }
+        });
+        
+        // Drag and drop effects
+        ['dragenter', 'dragover'].forEach(event => {
+            dropZone.addEventListener(event, () => {
+                dropZone.classList.add('border-blue-400', 'bg-blue-500', 'bg-opacity-10');
+            });
+        });
+        
+        ['dragleave', 'drop'].forEach(event => {
+            dropZone.addEventListener(event, () => {
+                dropZone.classList.remove('border-blue-400', 'bg-blue-500', 'bg-opacity-10');
+            });
+        });
+        
+        // Handle dropped files
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileInput.files = e.dataTransfer.files;
+            fileLabel.textContent = fileInput.files[0].name;
+            dropZone.classList.add('border-green-400', 'bg-green-500', 'bg-opacity-10');
+        });
+    </script>
+</body>
+</html>

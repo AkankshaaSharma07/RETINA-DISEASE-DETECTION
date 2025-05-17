@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vision AI - Retinal Disease Prediction</title>
+    <style>
+        :root {
+            --primary-blue: #3498db;
+            --dark-blue: #2c3e50;
+            --light-gray: #f5f5f5;
+            --white: #ffffff;
+            --danger-red: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.82); /* Reduced opacity for better background visibility */
+            z-index: -1;
+        }
+        
+        /* Header Styles */
+        .main-header {
+            background: linear-gradient(135deg, var(--dark-blue), var(--primary-blue));
+            color: white;
+            padding: 0.8rem 2rem;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 12px;
+            font-size: 1.8rem;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .nav-button {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .nav-button i {
+            margin-right: 8px;
+        }
+        
+        .logout-btn {
+            background: rgba(231, 76, 60, 0.15);
+        }
+        
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 0.25);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.92); /* Slightly transparent white */
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .content-header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: var(--dark-blue);
+            margin: 0;
+            font-size: 2.3rem;
+            background: linear-gradient(90deg, var(--primary-blue), var(--dark-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .upload-section {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 5px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border-left: 5px solid var(--primary-blue);
+        }
+        
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .image-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            flex: 1;
+            min-width: 300px;
+            transition: transform 0.3s ease;
+        }
+        
+        .image-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .image-box img {
+            border: 1px solid #eee;
+            border-radius: 4px;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .prediction-result {
+            background: linear-gradient(135deg, #e8f4fc, #f0f9ff);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 5px solid var(--primary-blue);
+        }
+        
+        .error {
+            background: linear-gradient(135deg, #fdecea, #ffebee);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+            border-left: 5px solid var(--danger-red);
+        }
+        
+        button {
+            background: linear-gradient(135deg, var(--primary-blue), #3a7bb8);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin-top: 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(74, 137, 220, 0.3);
+            font-weight: 600;
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, #3a7bb8, var(--primary-blue));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(74, 137, 220, 0.4);
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 15px 0;
+        }
+        
+        .file-input-wrapper input[type="file"] {
+            font-size: 16px;
+            padding: 15px;
+            width: 100%;
+            max-width: 400px;
+            border: 2px dashed var(--primary-blue);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--dark-blue);
+        }
+        
+        .medical-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .image-container {
+                flex-direction: column;
+            }
+            
+            .main-header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .nav-buttons {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: space-around;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo-container">
+            <h1 class="logo">
+                <i class="fas fa-eye"></i>
+                Vision AI
+            </h1>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-button">
+                <i class="fas fa-user-circle"></i>
+                Profile
+            </button>
+            <button class="nav-button logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <header class="content-header">
+            <h1><i class="fas fa-eye medical-icon"></i> Retinal Disease Prediction</h1>
+            <p class="subtitle">AI-powered retinal image analysis for early disease detection</p>
+        </header>
+        
+        <div class="upload-section">
+            <h2><i class="fas fa-upload medical-icon"></i> Upload Retinal Image For Masking</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <div class="file-input-wrapper">
+                    <input type="file" name="file" accept="image/*" required>
+                </div>
+                <button type="submit"><i class="fas fa-search-plus medical-icon"></i> Analyze Image</button>
+            </form>
+        </div>
+
+        {% if error %}
+            <div class="error">
+                <h2><i class="fas fa-exclamation-triangle medical-icon"></i> Error</h2>
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+
+        {% if result_image_path %}
+        <div class="image-container">
+            <div class="image-box">
+                <h2><i class="fas fa-image medical-icon"></i> Original Image</h2>
+                <img src="{{ original_image_path }}" alt="Original Image" width="512">
+            </div>
+            <div class="image-box">
+                <h2><i class="fas fa-project-diagram medical-icon"></i> Generated Mask</h2>
+                <img src="{{ result_image_path }}" alt="Generated Segmentation Mask" width="512">
+            </div>
+        </div>
+        {% endif %}
+
+        {% if disease_prediction %}
+        
+        <div class="prediction-result">
+            <h2><i class="fas fa-diagnoses medical-icon"></i> Disease Prediction</h2>
+            <p>{{ disease_prediction }}</p>
+        </div>
+        {% endif %}
+        
+        <footer>
+            <p>© 2023 Vision AI | Advanced Retinal Diagnostics Platform</p>
+        </footer>
+    </div>
+
+    <script>
+        // Enhanced JavaScript for navigation buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            // Profile button functionality
+            document.querySelector('.nav-button:not(.logout-btn)').addEventListener('click', function() {
+                window.location.href = '/profile';
+            });
+            
+            // Logout button functionality
+            document.querySelector('.logout-btn').addEventListener('click', function() {
+                if(confirm('Are you sure you want to logout?')) {
+                    // In a real application, you might want to:
+                    // 1. Send a logout request to the server
+                    // 2. Clear any client-side authentication tokens
+                    // 3. Redirect to login page
+                    window.location.href = '/logout';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
