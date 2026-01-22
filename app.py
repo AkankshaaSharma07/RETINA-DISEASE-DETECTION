@@ -223,53 +223,90 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    # If user is already logged in, redirect to detection page
-    if 'email' in session:
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return jsonify({'redirect': url_for('test')})
-        return redirect(url_for('test'))
-        
-    if request.method == 'POST':
-        email = request.form.get('email', '').strip()
-        password = request.form.get('password', '')
-        
-        # Basic validation
-        if not email or not password:
+    try:
+        # If user is already logged in, redirect to landing page
+        if 'email' in session:
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return jsonify({'error': 'Please enter both email and password'}), 400
-            flash('Please enter both email and password', 'error')
-            return render_template('login.html')
-            
-        # Find user by email
-        user = User.query.filter_by(email=email).first()
-        
-        if user and user.check_password(password):
-            # Login successful
-            session['email'] = user.email
-            session['user_id'] = user.id
-            session['name'] = user.name
-            
-            # Log successful login
-            print(f"User {email} logged in successfully")
-            
-            # Handle AJAX request
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return jsonify({
-                    'success': True,
-                    'redirect': url_for('Landingpage'),
-                })
-            
-            # Handle regular form submission
-            flash('Welcome back!', 'success')
+                return jsonify({'redirect': url_for('Landingpage')})
             return redirect(url_for('Landingpage'))
-        else:
-            # Login failed
-            if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return jsonify({'error': 'Invalid email or password'}), 401
-            flash('Invalid email or password', 'error')
-            print(f"Failed login attempt for email: {email}")
             
-    return render_template('login.html')
+        if request.method == 'POST':
+            try:
+                email = request.form.get('email', '').strip()
+                password = request.form.get('password', '')
+                
+                # Basic validation
+                if not email or not password:
+                    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                        return jsonify({'error': 'Please enter both email and password'}), 400
+                    flash('Please enter both email and password', 'error')
+                    return render_template('login.html')
+                    
+                # Find user by email
+                user = User.query.filter_by(email=email).first()
+                
+                # Strict check for user existence - must register first
+                if not user:
+                    error_message = 'Account not found. Please register first.'
+                    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                        return jsonify({
+                            'error': error_message,
+                            'redirect': url_for('register')
+                        }), 401
+                    flash(error_message, 'error')
+                    return redirect(url_for('register'))
+                    
+                # Check password
+                if not user.check_password(password):
+                    error_message = 'Invalid password'
+                    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                        return jsonify({'error': error_message}), 401
+                    flash(error_message, 'error')
+                    return render_template('login.html')
+                    
+                # Login successful
+                session.clear()  # Clear any existing session data
+                session['email'] = user.email
+                session['user_id'] = user.id
+                session['name'] = user.name
+                
+                # Log successful login
+                print(f"User {email} logged in successfully")
+                
+                # Handle AJAX request
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({
+                        'success': True,
+                        'redirect': url_for('Landingpage'),
+                        'message': 'Login successful!'
+                    })
+                
+                # Handle regular form submission
+                flash('Welcome back!', 'success')
+                return redirect(url_for('Landingpage'))
+                    
+            except Exception as e:
+                db.session.rollback()
+                error_message = f'An unexpected error occurred during login (POST): {str(e)}'
+                print(f"Login exception (POST): {error_message}") # Log the specific error
+
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({'error': 'An error occurred during login. Please try again.'}), 500
+                flash('An error occurred during login', 'error')
+                return render_template('login.html')
+                
+        # Handle GET request for the login page
+        return render_template('login.html')
+
+    except Exception as e:
+        db.session.rollback()
+        error_message = f'An unexpected error occurred while rendering login page: {str(e)}'
+        print(f"Login exception (GET/Rendering): {error_message}") # Log the specific error
+        # Attempt to render a simple error message or template
+        try:
+            return "An internal server error occurred.", 500
+        except:
+            return "An internal server error occurred and couldn't render error page.", 500
 
 @app.route('/Landingpage')
 def Landingpage():
@@ -280,27 +317,78 @@ def register():
     if request.method == 'POST':
         try:
             # Get form data
-            name = request.form.get('name')
-            email = request.form.get('email')
-            mobile_number = request.form.get('mobile_number')
-            password = request.form.get('password')
-            gender = request.form.get('gender')
-            age = request.form.get('age')
+            name = request.form.get('name', '').strip()
+            email = request.form.get('email', '').strip()
+            mobile_number = request.form.get('mobile_number', '').strip()
+            password = request.form.get('password', '')
+            confirm_password = request.form.get('confirm_password', '')
+            gender = request.form.get('gender', '')
+            age = request.form.get('age', '')
             
             # Validate required fields
             if not all([name, email, mobile_number, password, gender, age]):
+                error_message = 'All fields are required'
                 if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                    return jsonify({'error': 'All fields are required'}), 400
-                flash('All fields are required', 'error')
+                    return jsonify({'error': error_message}), 400
+                flash(error_message, 'error')
+                return render_template('register.html')
+            
+            # Validate email format
+            if '@' not in email or '.' not in email:
+                error_message = 'Invalid email format'
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({'error': error_message}), 400
+                flash(error_message, 'error')
+                return render_template('register.html')
+            
+            # Validate mobile number format
+            # Allowing 10-15 digits for mobile number based on common formats
+            if not mobile_number.isdigit() or not (10 <= len(mobile_number) <= 15):
+                error_message = 'Invalid mobile number format (10-15 digits required)'
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({'error': error_message}), 400
+                flash(error_message, 'error')
+                return render_template('register.html')
+            
+            # Validate age
+            try:
+                age = int(age)
+                if age < 1 or age > 120:
+                    raise ValueError("Age must be between 1 and 120")
+            except ValueError:
+                error_message = 'Invalid age'
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({'error': error_message}), 400
+                flash(error_message, 'error')
+                return render_template('register.html')
+            
+            # Validate password
+            if len(password) < 8:
+                error_message = 'Password must be at least 8 characters long'
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({'error': error_message}), 400
+                flash(error_message, 'error')
+                return render_template('register.html')
+            
+            # Check if passwords match
+            if password != confirm_password:
+                error_message = 'Passwords do not match'
+                if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    return jsonify({'error': error_message}), 400
+                flash(error_message, 'error')
                 return render_template('register.html')
             
             # Check if user already exists
             existing_user = User.query.filter_by(email=email).first()
             if existing_user:
+                error_message = 'Email already registered. Please login instead.'
                 if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                    return jsonify({'error': 'Email already registered'}), 400
-                flash('Email already registered', 'error')
-                return render_template('register.html')
+                    return jsonify({
+                        'error': error_message,
+                        'redirect': url_for('login')
+                    }), 400
+                flash(error_message, 'error')
+                return redirect(url_for('login'))
             
             # Create new user
             user = User(
@@ -315,19 +403,24 @@ def register():
             db.session.add(user)
             db.session.commit()
             
+            success_message = 'Registration successful! Please login.'
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return jsonify({'success': True, 'message': 'Registration successful'})
+                return jsonify({
+                    'success': True, 
+                    'message': success_message,
+                    'redirect': url_for('login')
+                })
             
-            flash('Registration successful! Please login.', 'success')
+            flash(success_message, 'success')
             return redirect(url_for('login'))
             
         except Exception as e:
             db.session.rollback()
-            error_message = str(e)
+            error_message = f'An error occurred during registration: {str(e)}'
             print(f"Registration error: {error_message}")
             
             if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-                return jsonify({'error': 'An error occurred during registration'}), 500
+                return jsonify({'error': 'An internal error occurred during registration. Please try again.'}), 500 # Generic error for client
             
             flash('An error occurred during registration', 'error')
             return render_template('register.html')
@@ -340,6 +433,9 @@ def about():
 
 @app.route('/test')
 def test():
+    if 'email' not in session:
+        flash('Please login to access the analysis page', 'error')
+        return redirect(url_for('login'))
     return render_template('test.html')
 
 @app.route('/test1')

@@ -672,7 +672,6 @@
       {% if 'email' in session %}
       <a href="{{ url_for('test') }}" {% if request.endpoint=='test' %}class="active" {% endif %}><i
           class="fas fa-microscope"></i> Start Analysis</a>
-
       <a href="{{ url_for('blog') }}" {% if request.endpoint=='blog' %}class="active" {% endif %}><i
           class="fas fa-blog"></i> Blog</a>
       <a href="{{ url_for('dashboard') }}" {% if request.endpoint=='dashboard' %}class="active" {% endif %}><i
@@ -700,7 +699,7 @@
       <h1>AI-Powered Retinal Disease Detection</h1>
       <p>Early detection for better eye health using advanced artificial intelligence</p>
       <div class="cta-buttons">
-        <a href="{{ url_for('login') }}" class="primary-btn">Get Started</a>
+        <a href="{{ url_for('test') }}" class="primary-btn">Get Started</a>
         <a href="{{url_for('segmentation')}}" class="primary-btn">Segmentation</a>
       </div>
     </div>

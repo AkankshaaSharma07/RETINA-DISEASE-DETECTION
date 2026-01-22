@@ -77,7 +77,8 @@
             </select>
             <input type="tel" placeholder="Contact Number" id="mobile_number" name="mobile_number" required pattern="[0-9]{10}" title="Please enter a valid 10-digit mobile number">
             <input type="email" placeholder="Email Address" id="email" name="email" required>
-            <input type="password" placeholder="Create Password" id="password" name="password" required>
+            <input type="password" placeholder="Create Password" id="password" name="password" required minlength="8">
+            <input type="password" placeholder="Confirm Password" id="confirm_password" name="confirm_password" required minlength="8">
             <button type="submit">Register</button>
         </form>
         <a href="/Landingpage" class="back-button">Back to Home</a>
